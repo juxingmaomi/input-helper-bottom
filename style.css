@@ -1,6 +1,6 @@
 /* The helper is moved by index.js only on narrow screens. */
 @media screen and (max-width: 768px) {
-    #send_form > #script_container_24ebddd6-7558-4f60-b473-a6a872c14040.ihb-moved {
+    #send_form > [id^="script_container_"].ihb-moved {
         order: 30 !important;
         display: flex !important;
         flex: 0 0 auto !important;
@@ -16,7 +16,7 @@
         padding: 0 6px 3px !important;
     }
 
-    #send_form > #script_container_24ebddd6-7558-4f60-b473-a6a872c14040.ihb-moved > .qr--button {
+    #send_form > [id^="script_container_"].ihb-moved > .qr--button {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;

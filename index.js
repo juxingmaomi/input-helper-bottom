@@ -1,7 +1,7 @@
 (() => {
     'use strict';
 
-    // The script id is stable for this user's saved Tavern Helper script.
+    // Keep compatibility with the original installation when the helper API is unavailable.
     const INPUT_HELPER_ID = 'script_container_24ebddd6-7558-4f60-b473-a6a872c14040';
     const MOVED_CLASS = 'ihb-moved';
     const MOBILE_QUERY = '(max-width: 768px)';
@@ -23,7 +23,31 @@
     };
 
     function findContainer() {
-        return document.getElementById(INPUT_HELPER_ID);
+        const original = document.getElementById(INPUT_HELPER_ID);
+        if (original) return original;
+
+        const helper = window.TavernHelper;
+        if (typeof helper?.getScriptTrees !== 'function') return null;
+        const matches = new Set();
+        function visit(scripts) {
+            for (const script of scripts) {
+                if (!script.enabled) continue;
+                if (script.type === 'folder') {
+                    visit(script.scripts || []);
+                } else if (script.type === 'script' && script.name?.trim() === '\u8f93\u5165\u52a9\u624b') {
+                    const container = document.getElementById(`script_container_${script.id}`);
+                    if (container) matches.add(container);
+                }
+            }
+        }
+        for (const type of ['global', 'preset', 'character']) {
+            try {
+                visit(helper.getScriptTrees({ type }));
+            } catch {
+                // A character or preset scope may not be ready during startup.
+            }
+        }
+        return matches.size === 1 ? [...matches][0] : null;
     }
 
     function ensureAnchor(container) {
@@ -57,6 +81,13 @@
     function sync() {
         const container = findContainer();
         const sendForm = document.getElementById('send_form');
+        if (currentContainer && currentContainer !== container) {
+            if (currentContainer.isConnected) restoreToToolbar(currentContainer);
+            else currentContainer.classList.remove(MOVED_CLASS);
+            anchor?.remove();
+            anchor = null;
+            currentContainer = null;
+        }
         if (!container || !sendForm) return;
 
         if (isMobile()) {
@@ -77,8 +108,8 @@
         return [...mutation.addedNodes, ...mutation.removedNodes].some((node) => {
             if (!(node instanceof Element)) return false;
             return node.id === 'send_form'
-                || node.id === INPUT_HELPER_ID
-                || node.querySelector?.(`#${INPUT_HELPER_ID}`)
+                || node.id.startsWith('script_container_')
+                || node.querySelector?.('[id^="script_container_"]')
                 || node.querySelector?.('#send_form');
         });
     }
