@@ -1,0 +1,32 @@
+/* The helper is moved by index.js only on narrow screens. */
+@media screen and (max-width: 768px) {
+    #send_form > #script_container_24ebddd6-7558-4f60-b473-a6a872c14040.ihb-moved {
+        order: 30 !important;
+        display: flex !important;
+        flex: 0 0 auto !important;
+        flex-wrap: wrap !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 5px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        box-sizing: border-box !important;
+        margin: 0 !important;
+        padding: 0 6px 3px !important;
+    }
+
+    #send_form > #script_container_24ebddd6-7558-4f60-b473-a6a872c14040.ihb-moved > .qr--button {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        min-height: var(--bottomFormBlockSize, 28px);
+        color: var(--SmartThemeBodyColor) !important;
+        border: 1px solid var(--SmartThemeBorderColor) !important;
+        border-radius: 10px;
+        cursor: pointer;
+        margin: 0 !important;
+        padding: 3px 5px !important;
+        box-sizing: border-box;
+    }
+}

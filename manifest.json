@@ -1,0 +1,11 @@
+{
+  "display_name": "输入助手底部布局",
+  "description": "手机窄屏时，将酒馆助手的输入助手按钮放到聊天输入框下方。",
+  "loading_order": 1000,
+  "js": "index.js",
+  "css": "style.css",
+  "author": "Codex",
+  "version": "0.1.0",
+  "auto_update": false,
+  "minimum_client_version": "1.12.13"
+}
